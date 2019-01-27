@@ -1,8 +1,7 @@
 package com.inflean.springjpa.jpastudy.post;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Post {
@@ -14,6 +13,8 @@ public class Post {
 
   private String content;
 
+  @Temporal(TemporalType.TIMESTAMP)
+  private Date created;
 
   public Long getId() {
     return id;
@@ -38,4 +39,13 @@ public class Post {
   public void setContent(String content) {
     this.content = content;
   }
+
+  public Date getCreated() {
+    return created;
+  }
+
+  public void setCreated(Date created) {
+    this.created = created;
+  }
+
 }
