@@ -4,6 +4,8 @@ package com.inflean.springjpa.jpastudy;
 import com.inflean.springjpa.jpastudy.post.Post;
 import com.inflean.springjpa.jpastudy.post.PostRepository;
 import com.inflean.springjpa.jpastudy.post.PostRepositoryTestConfig;
+import com.inflean.springjpa.jpastudy.post.QPost;
+import com.querydsl.core.types.Predicate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 @RunWith(SpringRunner.class)
@@ -46,12 +50,15 @@ public class PostRepositoryTest {
     assertThat(postRepository.contains(post)).isFalse();
 
     postRepository.save(post.publish());
-
+/*
     assertThat(postRepository.contains(post)).isTrue();
 
     postRepository.delete(post);
-    postRepository.flush();
+    postRepository.flush();*/
 
+    Predicate predicate = QPost.post.title.containsIgnoreCase("hibernate");
+    Optional<Post> one = postRepository.findOne(predicate);
+    assertThat(one).isNotEmpty();
 
   }
 }
