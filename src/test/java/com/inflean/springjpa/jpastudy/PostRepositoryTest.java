@@ -44,11 +44,13 @@ public class PostRepositoryTest {
   @Test
   public void crud() {
 
+    // 1. 일반적 JPA 처리
     Post post = new Post();
     post.setTitle("hibernate");
 
     assertThat(postRepository.contains(post)).isFalse();
 
+    // PostListenenr 가 이벤트 리스너로 등록되어 있으므로 화면에 추가로 로그 찍히게 됨
     postRepository.save(post.publish());
 /*
     assertThat(postRepository.contains(post)).isTrue();
@@ -56,6 +58,8 @@ public class PostRepositoryTest {
     postRepository.delete(post);
     postRepository.flush();*/
 
+
+    // 2. querydsl 적용
     Predicate predicate = QPost.post.title.containsIgnoreCase("hibernate");
     Optional<Post> one = postRepository.findOne(predicate);
     assertThat(one).isNotEmpty();
